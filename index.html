@@ -497,9 +497,9 @@ function sendLeadToWhatsApp() {
                     `🏙️ *शहर:* ${city}\n` +
                     `📍 *राज्य:* ${state}\n` +
                     `⚡ *कुल लोड:* ${load} kW\n\n` +
-                    `🔢 *सुझाया गया सिस्टम:* ${document.querySelector('.big-number')?.textContent || '—'} kW\n` +
+                    `🔢 *सुझाया गया सिस्टम:* ${document.querySelector('.big-number')?.textContent || '—'} n\n` +
                     `📅 *25 साल की बचत:* ${document.querySelector('.value.big')?.textContent || '—'}\n\n` +
-                    `✅ *कृपया मुझे इस बारे में और जानकारी दें। साइट विजिट और सब्सिडी के बारे में मार्गदर्शन करें।*`;
+                    `✅ *कृपया मुझे इस बारे में और जानकारी दें। साइट विजिट और सब्सिडी के बारे में बताएं।*`;
 
     // Encode for WhatsApp
     const url = `https://wa.me/919910601787?text=${encodeURIComponent(message)}`;
