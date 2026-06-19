@@ -491,15 +491,15 @@ function sendLeadToWhatsApp() {
     }
 
     // WhatsApp message
-    const message = `☀️ *नई सोलर लीड मिली है!*\n\n` +
+    const message = `☀️ *नमस्ते! मुझे सोलर के बारे में जानकारी चाहिए थी।*\n\n` +
                     `👤 *नाम:* ${name}\n` +
                     `📱 *मोबाइल:* ${phone}\n` +
                     `🏙️ *शहर:* ${city}\n` +
                     `📍 *राज्य:* ${state}\n` +
                     `⚡ *कुल लोड:* ${load} kW\n\n` +
-                    `🔢 *सिस्टम साइज़:* ${document.querySelector('.big-number')?.textContent || '—'} kW\n` +
+                    `🔢 *सुझाया गया सिस्टम:* ${document.querySelector('.big-number')?.textContent || '—'} kW\n` +
                     `📅 *25 साल की बचत:* ${document.querySelector('.value.big')?.textContent || '—'}\n\n` +
-                    `✅ *यह लीड ग्राहक है — फॉलो-अप करें!*`;
+                    `✅ *कृपया मुझे इस बारे में और जानकारी दें। साइट विजिट और सब्सिडी के बारे में मार्गदर्शन करें।*`;
 
     // Encode for WhatsApp
     const url = `https://wa.me/919910601787?text=${encodeURIComponent(message)}`;
