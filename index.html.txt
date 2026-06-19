@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>☀️ सोलर कैलकुलेटर – Roorkee</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+        }
+        body {
+            background: linear-gradient(145deg, #f5f7fc 0%, #e9edf5 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 32px 28px;
+            max-width: 580px;
+            width: 100%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transition: 0.3s;
+        }
+        h1 {
+            text-align: center;
+            font-size: 26px;
+            font-weight: 800;
+            color: #0b2a46;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .sub-title {
+            text-align: center;
+            color: #4a5a6e;
+            font-size: 14px;
+            border-bottom: 2px dashed #fbb13c;
+            padding-bottom: 16px;
+            margin-bottom: 22px;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 15px;
+            color: #1a3148;
+            margin-bottom: 5px;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #dce2ec;
+            border-radius: 14px;
+            font-size: 16px;
+            background: #fafcff;
+            transition: 0.25s;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #fbb13c;
+            outline: none;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(251, 177, 60, 0.15);
+        }
+        .load-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px 20px;
+            background: #f8faff;
+            padding: 16px 18px;
+            border-radius: 16px;
+            border: 1px solid #e2eaf5;
+            margin-bottom: 8px;
+        }
+        .load-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .load-item label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a3148;
+            margin-bottom: 0;
+        }
+        .load-item input {
+            width: 60px;
+            padding: 6px 8px;
+            border: 1.5px solid #dce2ec;
+            border-radius: 10px;
+            font-size: 15px;
+            text-align: center;
+            background: white;
+        }
+        .load-item input:focus {
+            border-color: #fbb13c;
+            outline: none;
+        }
+        .total-load-box {
+            background: #eef4fa;
+            border-radius: 12px;
+            padding: 10px 16px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 17px;
+            color: #0b2a46;
+            margin-top: 6px;
+        }
+        .total-load-box span {
+            color: #d97c0e;
+            font-size: 22px;
+        }
+        .btn-calc {
+            width: 100%;
+            padding: 15px;
+            background: #fbb13c;
+            border: none;
+            border-radius: 16px;
+            color: #0b2a46;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(251, 177, 60, 0.35);
+            transition: 0.2s;
+            margin: 8px 0 16px;
+        }
+        .btn-calc:hover {
+            background: #f9a01b;
+            transform: scale(1.01);
+            box-shadow: 0 8px 24px rgba(251, 177, 60, 0.45);
+        }
+        .btn-calc:active {
+            transform: scale(0.98);
+        }
+
+        .result-box {
+            display: none;
+            background: #f2f8ff;
+            border-radius: 18px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 6px solid #fbb13c;
+            animation: fadeUp 0.45s ease;
+        }
+        .result-box.show {
+            display: block;
+        }
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translateY(18px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #dfe8f2;
+            font-size: 15px;
+        }
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        .label {
+            color: #1a3148;
+            font-weight: 500;
+        }
+        .value {
+            font-weight: 700;
+            color: #f08b1f;
+        }
+        .value.green {
+            color: #1f9d5a;
+        }
+        .value.big {
+            font-size: 24px;
+            color: #d97c0e;
+        }
+        .highlight-box {
+            background: #fef6e7;
+            border-radius: 14px;
+            padding: 16px;
+            margin: 12px 0 16px;
+            border: 2px solid #fbb13c;
+            text-align: center;
+        }
+        .highlight-box .big-number {
+            font-size: 34px;
+            font-weight: 800;
+            color: #d97c0e;
+        }
+
+        /* Lead Form Style */
+        .lead-form {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 16px;
+            margin-top: 18px;
+            border: 2px solid #dce2ec;
+        }
+        .lead-form h3 {
+            color: #0b2a46;
+            font-size: 17px;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        .lead-form .form-group {
+            margin-bottom: 10px;
+        }
+        .lead-form .form-group input {
+            padding: 10px 14px;
+            font-size: 15px;
+        }
+        .lead-form .form-group input:focus {
+            border-color: #25D366;
+        }
+
+        .cta-wa {
+            display: block;
+            text-align: center;
+            background: #25D366;
+            color: #fff;
+            padding: 14px;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+            margin-top: 14px;
+            transition: 0.25s;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        .cta-wa:hover {
+            background: #1ebe5a;
+            transform: scale(1.01);
+        }
+        .footer-note {
+            text-align: center;
+            font-size: 12px;
+            color: #7a8a9e;
+            margin-top: 14px;
+        }
+        .hidden {
+            display: none;
+        }
+        @media (max-width: 480px) {
+            .container { padding: 20px 16px; }
+            h1 { font-size: 22px; }
+            .load-grid { grid-template-columns: 1fr; gap: 8px; }
+            .highlight-box .big-number { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>☀️ सोलर सेविंग्स</h1>
+    <div class="sub-title">अपना लोड डालें – 25 साल का पूरा हिसाब</div>
+
+    <!-- ===== STATE SELECT ===== -->
+    <div class="form-group">
+        <label>📍 आपका शहर / राज्य</label>
+        <select id="stateSelect">
+            <option value="uk">उत्तराखंड (रुड़की)</option>
+            <option value="up">उत्तर प्रदेश</option>
+            <option value="delhi">दिल्ली (Delhi)</option>
+        </select>
+    </div>
+
+    <!-- ===== LOAD CALCULATOR ===== -->
+    <div class="form-group">
+        <label>🔌 घर का कुल लोड (appliances डालें)</label>
+        <div class="load-grid">
+            <div class="load-item">
+                <label>❄️ AC (1.5 Ton)</label>
+                <input type="number" id="acCount" value="0" min="0" step="1" oninput="updateTotalLoad()">
+            </div>
+            <div class="load-item">
+                <label>🧊 Fridge (200L)</label>
+                <input type="number" id="fridgeCount" value="0" min="0" step="1" oninput="updateTotalLoad()">
+            </div>
+            <div class="load-item">
+                <label>⚙️ Motor (1 HP)</label>
+                <input type="number" id="motorCount" value="0" min="0" step="1" oninput="updateTotalLoad()">
+            </div>
+            <div class="load-item">
+                <label>💡 Lights / Fan (5 units)</label>
+                <input type="number" id="lightCount" value="0" min="0" step="1" oninput="updateTotalLoad()">
+            </div>
+        </div>
+        <div class="total-load-box">
+            ⚡ कुल लोड: <span id="totalLoadDisplay">0.0</span> kW
+        </div>
+        <div style="font-size:13px; color:#6a7a8e; margin-top:4px;">
+            💡 हर appliance का अनुमानित लोड: AC (1.5kW), Fridge (0.2kW), Motor (0.75kW), Lights/Fan (0.3kW)
+        </div>
+    </div>
+
+    <input type="hidden" id="loadInput" value="0">
+
+    <!-- ===== MONTHLY BILL ===== -->
+    <div class="form-group">
+        <label>💡 औसत मासिक बिजली बिल (₹)</label>
+        <input type="number" id="billInput" placeholder="जैसे: 2500" value="2500">
+    </div>
+
+    <button class="btn-calc" onclick="calculateSolar()">🔢 कैलकुलेट करें</button>
+
+    <!-- ===== RESULT BOX ===== -->
+    <div class="result-box" id="resultBox">
+        <div id="resultContent"></div>
+    </div>
+
+    <div class="footer-note">
+        📈 5% सालाना बिजली बिल बढ़ने पर आधारित
+    </div>
+</div>
+
+<script>
+// ============================================================
+//  LOAD CALCULATOR
+// ============================================================
+function updateTotalLoad() {
+    const ac = parseFloat(document.getElementById('acCount').value) || 0;
+    const fridge = parseFloat(document.getElementById('fridgeCount').value) || 0;
+    const motor = parseFloat(document.getElementById('motorCount').value) || 0;
+    const lights = parseFloat(document.getElementById('lightCount').value) || 0;
+
+    const acLoad = ac * 1.5;
+    const fridgeLoad = fridge * 0.2;
+    const motorLoad = motor * 0.75;
+    const lightLoad = lights * 0.3;
+
+    const total = acLoad + fridgeLoad + motorLoad + lightLoad;
+    document.getElementById('totalLoadDisplay').textContent = total.toFixed(1);
+    document.getElementById('loadInput').value = total.toFixed(1);
+}
+
+// ============================================================
+//  SOLAR CALCULATOR (with Delhi added)
+// ============================================================
+function calculateSolar() {
+    const state = document.getElementById('stateSelect').value;
+    const loadKW = parseFloat(document.getElementById('loadInput').value);
+    const monthlyBill = parseFloat(document.getElementById('billInput').value);
+
+    if (!loadKW || loadKW <= 0 || !monthlyBill || monthlyBill <= 0) {
+        alert('⚠️ कृपया सही लोड और बिजली बिल भरें!');
+        return;
+    }
+
+    // ===== SUBSIDY LOGIC (UK, UP, DELHI) =====
+    let subsidy = 78000; // default central
+    let stateName = 'केंद्र सरकार';
+
+    if (state === 'uk') {
+        subsidy = 93000;   // 78k + 15k state
+        stateName = 'उत्तराखंड';
+    } else if (state === 'up') {
+        subsidy = 108000;  // 78k + 30k state
+        stateName = 'उत्तर प्रदेश';
+    } else if (state === 'delhi') {
+        subsidy = 78000;   // Delhi में केवल केंद्र सरकार की सब्सिडी (कोई राज्य टॉप-अप नहीं)
+        stateName = 'दिल्ली';
+    }
+
+    // ===== CALCULATIONS =====
+    let systemKW = Math.ceil(loadKW);
+    if (systemKW < 1) systemKW = 1;
+
+    const costPerKW = 65000;
+    const totalCost = systemKW * costPerKW;
+    const costAfterSubsidy = totalCost - subsidy;
+
+    const yearlySaving = Math.round(monthlyBill * 12 * 0.85);
+    let s1 = yearlySaving;
+    let s2 = Math.round(yearlySaving * 1.05);
+    let s3 = Math.round(yearlySaving * 1.10);
+    let saving3Years = s1 + s2 + s3;
+
+    let total25 = 0;
+    let current = yearlySaving;
+    for (let i = 0; i < 25; i++) {
+        total25 += current;
+        current = Math.round(current * 1.05);
+    }
+
+    let payback = costAfterSubsidy / yearlySaving;
+    payback = Math.round(payback * 10) / 10;
+    const beneficial = (monthlyBill >= 2000 && payback < 8);
+
+    // ===== LEAD COLLECTION FORM =====
+    const leadFormHTML = `
+        <div class="lead-form">
+            <h3>📋 इस लीड को सेव करें</h3>
+            <div class="form-group">
+                <input type="text" id="leadName" placeholder="आपका नाम (राहुल शर्मा)">
+            </div>
+            <div class="form-group">
+                <input type="tel" id="leadPhone" placeholder="मोबाइल नंबर (9876543210)">
+            </div>
+            <div class="form-group">
+                <input type="text" id="leadCity" placeholder="शहर (जैसे: रुड़की, दिल्ली)">
+            </div>
+            <div class="form-group">
+                <input type="text" id="leadState" placeholder="राज्य (उत्तराखंड / UP / दिल्ली)">
+            </div>
+            <button class="cta-wa" onclick="sendLeadToWhatsApp()">
+                📲 WhatsApp पर लीड भेजें
+            </button>
+        </div>
+    `;
+
+    // ===== RESULT HTML =====
+    const resultHTML = `
+        <div class="highlight-box">
+            <div style="font-size:14px; color:#1a3148;">आपका सिस्टम</div>
+            <div class="big-number">${systemKW} kW</div>
+            <div style="font-size:13px; color:#4a5a6e;">लोड के हिसाब से (${stateName})</div>
+        </div>
+
+        <div class="result-item">
+            <span class="label">💰 कीमत (बिना सब्सिडी)</span>
+            <span class="value">₹${totalCost.toLocaleString()}</span>
+        </div>
+        <div class="result-item">
+            <span class="label">🎁 सब्सिडी (${stateName})</span>
+            <span class="value green">₹${subsidy.toLocaleString()}</span>
+        </div>
+        <div class="result-item" style="border-bottom:2px solid #fbb13c; padding-bottom:14px;">
+            <span class="label">💵 आपको देना होगा</span>
+            <span class="value" style="font-size:18px;">₹${costAfterSubsidy.toLocaleString()}</span>
+        </div>
+
+        <div class="result-item">
+            <span class="label">📅 1 साल की बचत</span>
+            <span class="value green">₹${s1.toLocaleString()}</span>
+        </div>
+        <div class="result-item">
+            <span class="label">📅 3 साल की बचत</span>
+            <span class="value green">₹${saving3Years.toLocaleString()}</span>
+        </div>
+        <div class="result-item" style="border-bottom:2px solid #fbb13c; padding-bottom:14px;">
+            <span class="label">🔥 25 साल की कुल बचत</span>
+            <span class="value big">₹${total25.toLocaleString()}</span>
+        </div>
+
+        <div class="result-item">
+            <span class="label">⏳ पैसा वापस आने में</span>
+            <span class="value">${payback} साल</span>
+        </div>
+        <div class="result-item" style="border-bottom:none;">
+            <span class="label">${beneficial ? '✅' : '⚠️'} सोलर आपके लिए</span>
+            <span class="value ${beneficial ? 'green' : ''}" style="font-weight:800;">
+                ${beneficial ? '🔋 फायदेमंद है!' : 'अभी नहीं (बिल कम है)'}
+            </span>
+        </div>
+
+        ${leadFormHTML}
+    `;
+
+    document.getElementById('resultContent').innerHTML = resultHTML;
+    const box = document.getElementById('resultBox');
+    box.classList.add('show');
+    box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ============================================================
+//  SEND LEAD TO WHATSAPP (with all details)
+// ============================================================
+function sendLeadToWhatsApp() {
+    const name = document.getElementById('leadName').value.trim();
+    const phone = document.getElementById('leadPhone').value.trim();
+    const city = document.getElementById('leadCity').value.trim();
+    const state = document.getElementById('leadState').value.trim();
+    const load = document.getElementById('totalLoadDisplay').textContent;
+
+    if (!name || !phone || !city || !state) {
+        alert('⚠️ कृपया नाम, मोबाइल, शहर और राज्य भरें!');
+        return;
+    }
+
+    // WhatsApp message
+    const message = `☀️ *नई सोलर लीड मिली है!*\n\n` +
+                    `👤 *नाम:* ${name}\n` +
+                    `📱 *मोबाइल:* ${phone}\n` +
+                    `🏙️ *शहर:* ${city}\n` +
+                    `📍 *राज्य:* ${state}\n` +
+                    `⚡ *कुल लोड:* ${load} kW\n\n` +
+                    `🔢 *सिस्टम साइज़:* ${document.querySelector('.big-number')?.textContent || '—'} kW\n` +
+                    `📅 *25 साल की बचत:* ${document.querySelector('.value.big')?.textContent || '—'}\n\n` +
+                    `✅ *यह लीड ग्राहक है — फॉलो-अप करें!*`;
+
+    // Encode for WhatsApp
+    const url = `https://wa.me/919910601787?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+}
+
+// ============================================================
+//  PAGE LOAD
+// ============================================================
+window.onload = function () {
+    document.getElementById('resultBox').classList.remove('show');
+    updateTotalLoad();
+};
+</script>
+</body>
+</html>
